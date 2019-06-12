@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Default variables
+outputFlag=0
 verbosity=0
 
 # User switches
-while getopts p:v arg; do
+while getopts o:p:v arg; do
 	case "${arg}" in
+		o) of=${OPTARG};;
 		p) password=${OPTARG};;
 		v) ((verbosity++));;
 	esac
@@ -14,7 +16,9 @@ shift "$(($OPTIND - 1))"
 
 
 if [[ -f "$@" ]]; then
-	of="${@/.pdf/\ \(Protected\).pdf}"
+	if [[ -z "$of" ]]; then
+		of="${@/.pdf/\ \(Protected\).pdf}"
+	fi
 
 	if [[ -z "$password" ]]; then
 		read -s -p "Password:" password
