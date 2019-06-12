@@ -24,6 +24,10 @@ pdf-protect.sh <i>file_name</i>
 
 ### Usage
 <pre>
-lscsv.sh
+lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
 </pre>
+
+**Switches**  
+- -v: Verbose
+- -d: Depth
 
