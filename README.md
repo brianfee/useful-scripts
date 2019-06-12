@@ -6,14 +6,18 @@
 - pdftk
 
 ### Purpose
-- Creates a protected copy of a pdf.
+- Creates a protected copy of a pdf. protect-list.py can also password protect a list of files from a csv.
 
 ### Usage
 <pre>
 pdf-protect.sh [-v] [-a <i>append</i>] [-o <i>output</i>] [-p <i>password</i>] <i>file_name</i>
 </pre>
 
-**Switches**
+<pre>
+protect-list.sh <i>list_file_name</i>
+</pre>
+
+**pdf-protect.sh switches**
 - -v: Verbose
 - -a: Text to append at end of file name (before .pdf extension) Default: *(Protected)*
 - -o: Specify output file
