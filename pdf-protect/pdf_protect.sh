@@ -24,7 +24,7 @@ if [[ -f "$@" ]]; then
 	if [[ "$verbosity" -gt 1 ]]; then
 		echo "Input File: $@"
 		echo "Output File: $of"
-		echo "Password: $password"
+		if [[ "$verbosity" -gt 2 ]]; then echo "Password: $password"; fi
 		echo "Verbosity: $verbosity"
 		echo
 	fi
