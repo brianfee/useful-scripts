@@ -12,3 +12,18 @@
 <pre>
 pdf-protect.sh <i>file_name</i>
 </pre>
+
+
+## lscsv.sh
+### Requirements
+- bash
+- python
+
+### Purpose
+- Export a list of files in current directory to a file. Default: *filelist.csv*
+
+### Usage
+<pre>
+lscsv.sh
+</pre>
+
