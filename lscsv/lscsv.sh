@@ -1,15 +1,24 @@
 #!/bin/bash
 
+# Set default variables
 depth=1
+path=.
 
+# User switches
 while getopts d: arg; do
 	case "${arg}" in
-		d) depth=${OPTARG};
+		d) depth=${OPTARG};;
 	esac
 done
 shift "$(($OPTIND - 1))"
 
-find . -maxdepth $depth -ls | python -c "
+
+# If path exists, override default
+if ! [[ -z "$@" ]] && ([[ -f "$@" ]] || [[ -d "$@/" ]]); then
+	path=$@
+fi
+
+find $path -maxdepth $depth -ls | python -c "
 import sys
 
 csv = []
