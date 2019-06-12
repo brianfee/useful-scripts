@@ -20,6 +20,11 @@ if [[ -f "$@" ]]; then
 		of="${@/.pdf/\ \(Protected\).pdf}"
 	fi
 
+	if [[ "$of" == "$@" ]]; then
+		echo Output File cannot overwrite Input File.
+		exit
+	fi
+
 	if [[ -z "$password" ]]; then
 		read -s -p "Password:" password
 		echo
