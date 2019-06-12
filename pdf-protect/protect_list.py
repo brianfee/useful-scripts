@@ -29,5 +29,4 @@ if __name__ == '__main__':
 		pwd = datum['password']
 
 		argString = '-p ' + pwd
-		print(argString)
 		subprocess.call(['pdf_protect.sh', argString, f])
