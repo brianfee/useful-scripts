@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Default variables
-outputFlag=0
+append=" (Protected)"
+appendFlag=0
 verbosity=0
 
 # User switches
-while getopts o:p:v arg; do
+while getopts a:o:p:v arg; do
 	case "${arg}" in
+		a) append=${OPTARG};appendFlag=1;;
 		o) of=${OPTARG};;
 		p) password=${OPTARG};;
 		v) ((verbosity++));;
@@ -17,7 +19,9 @@ shift "$(($OPTIND - 1))"
 
 if [[ -f "$@" ]]; then
 	if [[ -z "$of" ]]; then
-		of="${@/.pdf/\ \(Protected\).pdf}"
+		of="${@/.pdf/$append.pdf}"
+	elif [[ "$appendFlag" -eq 1 ]]; then
+		of="${of/.pdf/$append.pdf}"
 	fi
 
 	if [[ "$of" == "$@" ]]; then
