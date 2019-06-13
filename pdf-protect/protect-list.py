@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import csv
 import subprocess
@@ -29,4 +29,4 @@ if __name__ == '__main__':
 		pwd = datum['password']
 
 		argString = '-p ' + pwd
-		subprocess.call(['pdf_protect.sh', argString, f])
+		subprocess.call(['pdf-protect.sh', argString, f])
