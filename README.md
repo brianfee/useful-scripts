@@ -41,3 +41,16 @@ lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
 - -v: Verbose
 - -d: Depth
 
+
+## merge-csvs.py
+### Requirements
+- python3
+  - pandas
+
+### Purpose
+- Merge two csvs based on a common column name and save to a new file *merged.csv*
+
+### Usage
+<pre>
+merge-csvs.py <i>file1 file2 common_column</i>
+</pre>
