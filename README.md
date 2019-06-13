@@ -4,6 +4,7 @@
 ### Requirements
 - bash
 - pdftk
+- python (for protect-list.py)
 
 ### Purpose
 - Creates a protected copy of a pdf. protect-list.py can also password protect a list of files from a csv.
@@ -14,7 +15,7 @@ pdf-protect.sh [-v] [-a <i>append</i>] [-o <i>output</i>] [-p <i>password</i>] <
 </pre>
 
 <pre>
-protect-list.sh <i>list_file_name</i>
+protect-list.py <i>list_file_name</i>
 </pre>
 
 **pdf-protect.sh switches**
