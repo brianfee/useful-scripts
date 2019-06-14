@@ -24,9 +24,9 @@ if __name__ == '__main__':
 	csvFile = str(sys.argv[-1])
 	data = import_csv(csvFile)
 
-	for datum in data:
-		f = datum['file']
-		pwd = datum['password']
+	for obj in data:
+		f = obj['file']
+		pwd = obj['password']
 
-		argString = '-p ' + pwd
+		argString = '-p' + pwd
 		subprocess.call(['pdf-protect.sh', argString, f])
