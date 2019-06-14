@@ -3,6 +3,19 @@
 import pandas as pd
 import sys
 
+from difflib import SequenceMatcher as SM
+
+def best_match(text, comparison_list):
+	best = {'ratio': None, 'value': None}
+
+	for item in comparison_list:
+		ratio = SM(None, text, item).ratio()
+		if best['ratio'] is None or ratio > best['ratio']:
+			best['ratio'] = ratio
+			best['value'] = item
+
+	return best
+
 
 if __name__ == '__main__':
 	file1 = sys.argv[1]
