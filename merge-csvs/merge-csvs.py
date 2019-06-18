@@ -14,10 +14,10 @@ def best_match(text, comparison_list):
 	text = text.lower()
 
 	for item in comparison_list:
-		item = item.lower()
-		ratio = SM(None, text, item).ratio()
+		x = item.lower()
+		ratio = SM(None, text, x).ratio()
 
-		ratio += text_in_string_ratio(item, text)
+		ratio += text_in_string_ratio(x, text)
 
 		if bestRatio is None or ratio > bestRatio:
 			bestRatio = ratio
