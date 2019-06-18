@@ -34,8 +34,12 @@ def load_csv(fileName):
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Joins two csvs.')
+	parser.add_argument('-j', '--join-type', type=str, default='inner',
+						metavar='JOIN')
 	parser.add_argument('-m', '--best-match', action='store_true')
 	parser.add_argument('-r', '--include-ratio', action='store_true')
+	parser.add_argument('-t', '--ratio-threshold', type=float,
+						metavar='THRESHOLD')
 	parser.add_argument('files', metavar='file_name', type=str, nargs=2)
 	parser.add_argument('column', metavar='column_name', type=str, nargs='+')
 
@@ -50,6 +54,9 @@ if __name__ == '__main__':
 	except IndexError:
 		col1 = args.column[0]
 		col2 = args.column[0]
+
+	threshold = args.ratio_threshold
+	thresholdFlag = True if threshold is not None else False
 
 	# Load CSV files
 	data1 = load_csv(file1)
@@ -74,8 +81,13 @@ if __name__ == '__main__':
 		# Get a list of best matches
 		for record in data1[col1]:
 			best_record = best_match(record, data2[col2])
-			best_ratios.append(best_record[0])
-			best_matches.append(best_record[1])
+
+			if thresholdFlag and best_record[0] < threshold:
+				best_ratios.append(None)
+				best_matches.append(None)
+			else:
+				best_ratios.append(best_record[0])
+				best_matches.append(best_record[1])
 
 		# Append best matches column to first dataset, 
 		if args.include_ratio:
@@ -85,7 +97,7 @@ if __name__ == '__main__':
 
 		# Rename specified column to best matches column within second dataset
 		data2.rename(columns = {col2: 'best_match'}, inplace = True)
-		merged = data1.merge(data2, on='best_match')
+		merged = data1.merge(data2, how=args.join_type, on='best_match')
 
 	else:
 		merged = data1.merge(data2, on = col1)
