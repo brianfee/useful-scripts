@@ -31,10 +31,13 @@ def text_in_string_ratio(text, string):
 	ratio = 0
 	textLength = len(text.replace(' ', ''))
 
-	text = text.split(' ')
+	for word in text.split(' '):
+		matched = False
+		for w in string.split(' '):
+			if word == w:
+				matched = True
 
-	for word in text:
-		if word in string:
+		if matched:
 			ratio += len(word)
 
 	return ratio / textLength
