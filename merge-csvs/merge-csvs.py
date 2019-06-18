@@ -42,11 +42,12 @@ if __name__ == '__main__':
 	file1 = args.files[0]
 	file2 = args.files[1]
 
-	if type(args.column) == list:
+	try:
 		col1 = args.column[0]
 		col2 = args.column[1]
-	else:
-		col1 = args.column
+	except IndexError:
+		col1 = args.column[0]
+		col2 = args.column[0]
 
 	# Load CSV files
 	data1 = load_csv(file1)
@@ -57,28 +58,28 @@ if __name__ == '__main__':
 		quit()
 
 
-	if column not in data1.columns:
-		print(column, 'is not a valid column name in', file1)
+	if col1 not in data1.columns:
+		print(col1, 'is not a valid column name in', file1)
 		quit()
-	elif column not in data2.columns:
-		print(column, 'is not a valid column name in', file2)
+	elif col2 not in data2.columns:
+		print(col2, 'is not a valid column name in', file2)
 		quit()
 
 	# Best Match flag handling
 	if args.best_match:
 		best_matches = []
 		# Get a list of best matches
-		for record in data1[column]:
-			best_matches.append(best_match(record, data2[column])['value'])
+		for record in data1[col1]:
+			best_matches.append(best_match(record, data2[col2])['value'])
 
 		# Append best matches column to first dataset, 
 		data1['best_match'] = best_matches
 
 		# Rename specified column to best matches column within second dataset
-		data2.rename(columns = {column: 'best_match'}, inplace = True)
+		data2.rename(columns = {col2: 'best_match'}, inplace = True)
 		merged = data1.merge(data2, on='best_match')
 
 	else:
-		merged = data1.merge(data2, on = column)
+		merged = data1.merge(data2, on = col1)
 
 	merged.to_csv('merged.csv', index = False)

@@ -49,9 +49,9 @@ lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
   - pandas
 
 ### Purpose
-- Merge two csvs based on a common column name and save to a new file *merged.csv*
+- Merge two csvs based on a specified column names and save to a new file *merged.csv*
 
 ### Usage
 <pre>
-merge-csvs.py <i>file1 file2 common_column</i>
+merge-csvs.py [--best-match] <i>file1 file2 column1 [column2]</i>
 </pre>
