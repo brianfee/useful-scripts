@@ -53,5 +53,5 @@ lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
 
 ### Usage
 <pre>
-merge-csvs.py [--best-match] <i>file1 file2 column1 [column2]</i>
+merge-csvs.py [-h] [-j JOIN] [-m] [-r] [-t THRESHOLD] <i>file1 file2 column1 [column2]</i>
 </pre>
