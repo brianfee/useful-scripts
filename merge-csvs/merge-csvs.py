@@ -6,11 +6,12 @@ import sys
 
 from difflib import SequenceMatcher as SM
 
+
 def best_match(text, comparison_list):
 	best = {'ratio': None, 'value': None}
 
 	for item in comparison_list:
-		ratio = SM(None, text, item).ratio()
+		ratio = SM(None, text.lower(), item.lower()).ratio()
 		if best['ratio'] is None or ratio > best['ratio']:
 			best['ratio'] = ratio
 			best['value'] = item
@@ -18,35 +19,43 @@ def best_match(text, comparison_list):
 	return best
 
 
+
+def load_csv(fileName):
+	try:
+		data = pd.read_csv(fileName)
+	except FileNotFoundError:
+		print('File:', fileName, 'not found...')
+		return None
+	
+	return data
+
+
+
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Joins two csvs.')
 	parser.add_argument('--best-match', action='store_true')
-
-	parser.add_argument('files',
-						metavar='file_name', 
-						type=str, nargs=2)
-
-	parser.add_argument('column_name',
-						metavar='column_name',
-						type=str)
+	parser.add_argument('files', metavar='file_name', type=str, nargs=2)
+	parser.add_argument('column', metavar='column_name', type=str, nargs='+')
 
 	args = parser.parse_args()
 
 	file1 = args.files[0]
 	file2 = args.files[1]
-	column = args.column_name
 
-	try:
-		data1 = pd.read_csv(file1)
-	except FileNotFoundError:
-		print('File:', file1, 'not found. Exiting...')
+	if type(args.column) == list:
+		col1 = args.column[0]
+		col2 = args.column[1]
+	else:
+		col1 = args.column
+
+	# Load CSV files
+	data1 = load_csv(file1)
+	data2 = load_csv(file2)
+
+	if data1 is None or data2 is None:
+		print('Exiting...')
 		quit()
 
-	try:
-		data2 = pd.read_csv(file2)
-	except FileNotFoundError:
-		print('File:', file2, 'not found. Exiting...')
-		quit()
 
 	if column not in data1.columns:
 		print(column, 'is not a valid column name in', file1)
@@ -67,7 +76,6 @@ if __name__ == '__main__':
 
 		# Rename specified column to best matches column within second dataset
 		data2.rename(columns = {column: 'best_match'}, inplace = True)
-		print(data2)
 		merged = data1.merge(data2, on='best_match')
 
 	else:
