@@ -11,13 +11,33 @@ def best_match(text, comparison_list):
 	bestRatio = None
 	bestValue = None
 
+	text = text.lower()
+
 	for item in comparison_list:
-		ratio = SM(None, text.lower(), item.lower()).ratio()
+		item = item.lower()
+		ratio = SM(None, text, item).ratio()
+
+		ratio += text_in_string_ratio(item, text)
+
 		if bestRatio is None or ratio > bestRatio:
 			bestRatio = ratio
 			bestValue = item
 
 	return bestRatio, bestValue
+
+
+
+def text_in_string_ratio(text, string):
+	ratio = 0
+	textLength = len(text.replace(' ', ''))
+
+	text = text.split(' ')
+
+	for word in text:
+		if word in string:
+			ratio += len(word)
+
+	return ratio / textLength
 
 
 
