@@ -11,13 +11,47 @@ def best_match(text, comparison_list):
 	bestRatio = None
 	bestValue = None
 
+	text = text.lower()
+
 	for item in comparison_list:
-		ratio = SM(None, text.lower(), item.lower()).ratio()
+		x = item.lower()
+		ratio = SM(None, text, x).ratio()
+
+		ratio += text_in_string_ratio(x, text)
+		ratio = round(ratio, 3)
+
 		if bestRatio is None or ratio > bestRatio:
 			bestRatio = ratio
 			bestValue = item
 
 	return bestRatio, bestValue
+
+
+
+def text_in_string_ratio(text, string):
+	def partial_word_match(w1, w2):
+		for i in reversed(range(3, len(w1) + 1)):
+			if w1[:i] in w2:
+				return i / len(w1)
+		return 0
+
+
+	overall_ratio = 0
+	textLength = len(text.replace(' ', ''))
+
+	for w1 in text.split(' '):
+		match_ratio = 0
+
+		for w2 in string.split(' '):
+			if args.partial_word_matching:
+				match_ratio = partial_word_match(w1, w2)
+
+			elif w1 == w2:
+				match_ratio = 1
+
+			overall_ratio += len(w1) * match_ratio
+
+	return overall_ratio / textLength
 
 
 
@@ -40,6 +74,7 @@ if __name__ == '__main__':
 	parser.add_argument('-r', '--include-ratio', action='store_true')
 	parser.add_argument('-t', '--ratio-threshold', type=float,
 						metavar='THRESHOLD')
+	parser.add_argument('--partial-word-matching', action='store_true')
 	parser.add_argument('files', metavar='file_name', type=str, nargs=2)
 	parser.add_argument('column', metavar='column_name', type=str, nargs='+')
 
