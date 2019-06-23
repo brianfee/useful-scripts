@@ -53,5 +53,12 @@ lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
 
 ### Usage
 <pre>
-merge-csvs.py [-h] [-j JOIN] [-m] [-r] [-t THRESHOLD] <i>file1 file2 column1 [column2]</i>
+merge-csvs.py [OPTIONS] <i>file1 file2 merge_column [merge_column2]</i>
 </pre>
+
+**Options**
+- -r, --include-ratio: Include match ratio as column in output file.
+- -t <i>THRESHOLD</i>, --ratio-threshold <i>THRESHOLD</i>: Only match if meeting specified threshold.
+- --best-match: Allow merge based on closest match between two columns.
+- --join-type <i>JOIN</i>: Specify join type. <i>(Outer, Inner, Left, Right)</i>
+- --partial-matching: Allow partial word matches to increase match ratio.
