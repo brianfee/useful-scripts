@@ -49,7 +49,7 @@ lscsv.sh [-v] [-d NUM] <i>[PATH...]</i>
   - pandas
 
 ### Purpose
-- Merge two csvs based on a specified column names and save to a new file *merged.csv*
+- Merge two csvs based on a specified column names and save to a new file *Default: merged.csv*
 
 ### Usage
 <pre>
@@ -57,6 +57,7 @@ merge-csvs.py [OPTIONS] <i>file1 file2 merge_column [merge_column2]</i>
 </pre>
 
 **Options**
+- -o, --output-file <i>FILE</i>
 - -r, --include-ratio: Include match ratio as column in output file.
 - -t <i>THRESHOLD</i>, --ratio-threshold <i>THRESHOLD</i>: Only match if meeting specified threshold.
 - --best-match: Allow merge based on closest match between two columns.

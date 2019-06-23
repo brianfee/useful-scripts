@@ -71,6 +71,8 @@ def parse_arguments():
 				usage='%(prog)s [OPTIONS] FILE FILE COLUMN [COLUMN2]')
 
 	# Short Arguments
+	parser.add_argument('-o', '--output-file', type=str, default='merged.csv',
+						metavar='FILE')
 	parser.add_argument('-r', '--include-ratio', action='store_true')
 	parser.add_argument('-t', '--ratio-threshold', type=float,
 						metavar='THRESHOLD')
@@ -98,6 +100,7 @@ def main(args):
 	col2 = args.col1 if args.col2 is None else args.col2
 	threshold = args.ratio_threshold
 	thresholdFlag = False if threshold is None else True
+	outputFile = args.output_file
 
 	# Load CSV files
 	data1 = load_csv(file1)
@@ -143,7 +146,7 @@ def main(args):
 	else:
 		merged = data1.merge(data2, on = col1)
 
-	merged.to_csv('merged.csv', index = False)
+	merged.to_csv(outputFile, index = False)
 	return
 
 
