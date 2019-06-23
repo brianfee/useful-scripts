@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-import argparse
 import pandas as pd
-import sys
-
-from difflib import SequenceMatcher as SM
 
 
 def best_match(text, comparison_list):
+	from difflib import SequenceMatcher as SM
+
 	bestRatio = None
 	bestValue = None
 
@@ -67,6 +65,8 @@ def load_csv(fileName):
 
 
 def parse_arguments():
+	import argparse
+
 	parser = argparse.ArgumentParser(description='Joins two csvs.',
 				usage='%(prog)s [OPTIONS] FILE FILE COLUMN [COLUMN2]')
 
