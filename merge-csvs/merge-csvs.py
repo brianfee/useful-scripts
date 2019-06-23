@@ -61,20 +61,27 @@ def load_csv(fileName):
 	except FileNotFoundError:
 		print('File:', fileName, 'not found...')
 		return None
-	
+
 	return data
 
 
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser(description='Joins two csvs.')
-	parser.add_argument('-j', '--join-type', type=str, default='inner',
-						metavar='JOIN')
-	parser.add_argument('-m', '--best-match', action='store_true')
+	parser = argparse.ArgumentParser(description='Joins two csvs.',
+				usage='%(prog)s [OPTIONS] FILE FILE COLUMN [COLUMN2]')
+
+	# Short Arguments
 	parser.add_argument('-r', '--include-ratio', action='store_true')
 	parser.add_argument('-t', '--ratio-threshold', type=float,
 						metavar='THRESHOLD')
-	parser.add_argument('--partial-word-matching', action='store_true')
+
+	# Long Arguments
+	parser.add_argument('--best-match', action='store_true')
+	parser.add_argument('--join-type', type=str, default='inner',
+						metavar='JOIN')
+	parser.add_argument('--partial-matching', action='store_true')
+
+	# Positional Arguments
 	parser.add_argument('files', metavar='file_name', type=str, nargs=2)
 	parser.add_argument('column', metavar='column_name', type=str, nargs='+')
 
@@ -124,7 +131,7 @@ if __name__ == '__main__':
 				best_ratios.append(best_record[0])
 				best_matches.append(best_record[1])
 
-		# Append best matches column to first dataset, 
+		# Append best matches column to first dataset,
 		if args.include_ratio:
 			data1['ratio'] = best_ratios
 
@@ -138,3 +145,5 @@ if __name__ == '__main__':
 		merged = data1.merge(data2, on = col1)
 
 	merged.to_csv('merged.csv', index = False)
+
+
