@@ -94,12 +94,10 @@ def parse_arguments():
 def main(args):
 	file1 = args.input_files[0]
 	file2 = args.input_files[1]
-
 	col1 = args.col1
 	col2 = args.col1 if args.col2 is None else args.col2
-
 	threshold = args.ratio_threshold
-	thresholdFlag = True if threshold is not None else False
+	thresholdFlag = False if threshold is None else True
 
 	# Load CSV files
 	data1 = load_csv(file1)
@@ -107,14 +105,14 @@ def main(args):
 
 	if data1 is None or data2 is None:
 		print('Exiting...')
-		quit()
+		return
 
 	if col1 not in data1.columns:
 		print(col1, 'is not a valid column name in', file1)
-		quit()
+		return
 	elif col2 not in data2.columns:
 		print(col2, 'is not a valid column name in', file2)
-		quit()
+		return
 
 	# Best Match flag handling
 	if args.best_match:
