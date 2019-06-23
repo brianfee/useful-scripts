@@ -43,7 +43,7 @@ def text_in_string_ratio(text, string):
 		match_ratio = 0
 
 		for w2 in string.split(' '):
-			if args.partial_word_matching:
+			if args.partial_matching:
 				match_ratio = partial_word_match(w1, w2)
 
 			elif w1 == w2:
@@ -66,7 +66,7 @@ def load_csv(fileName):
 
 
 
-if __name__ == '__main__':
+def parse_arguments():
 	parser = argparse.ArgumentParser(description='Joins two csvs.',
 				usage='%(prog)s [OPTIONS] FILE FILE COLUMN [COLUMN2]')
 
@@ -82,20 +82,21 @@ if __name__ == '__main__':
 	parser.add_argument('--partial-matching', action='store_true')
 
 	# Positional Arguments
-	parser.add_argument('files', metavar='file_name', type=str, nargs=2)
-	parser.add_argument('column', metavar='column_name', type=str, nargs='+')
+	parser.add_argument('input_files', metavar='Files', type=str, nargs=2)
+	parser.add_argument('col1', metavar='Match Column', type=str)
+	parser.add_argument('col2', metavar='[2nd File Match Column]', type=str,
+						nargs='?')
 
-	args = parser.parse_args()
+	return parser.parse_args()
 
-	file1 = args.files[0]
-	file2 = args.files[1]
 
-	try:
-		col1 = args.column[0]
-		col2 = args.column[1]
-	except IndexError:
-		col1 = args.column[0]
-		col2 = args.column[0]
+
+def main(args):
+	file1 = args.input_files[0]
+	file2 = args.input_files[1]
+
+	col1 = args.col1
+	col2 = args.col1 if args.col2 is None else args.col2
 
 	threshold = args.ratio_threshold
 	thresholdFlag = True if threshold is not None else False
@@ -145,5 +146,11 @@ if __name__ == '__main__':
 		merged = data1.merge(data2, on = col1)
 
 	merged.to_csv('merged.csv', index = False)
+	return
 
+
+
+if __name__ == '__main__':
+	args = parse_arguments()
+	main(args)
 
