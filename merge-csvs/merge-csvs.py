@@ -82,6 +82,7 @@ def parse_arguments():
 	parser.add_argument('--join-type', type=str, default='inner',
 						metavar='JOIN')
 	parser.add_argument('--partial-matching', action='store_true')
+	parser.add_argument('--output-columns', type=str, metavar='COLUMN')
 
 	# Positional Arguments
 	parser.add_argument('input_files', metavar='Files', type=str, nargs=2)
@@ -101,6 +102,10 @@ def main(args):
 	threshold = args.ratio_threshold
 	thresholdFlag = False if threshold is None else True
 	outputFile = args.output_file
+	try:
+		oCols = args.output_columns.split(',')
+	except AttributeError:
+		oCols = None
 
 	# Load CSV files
 	data1 = load_csv(file1)
@@ -146,7 +151,10 @@ def main(args):
 	else:
 		merged = data1.merge(data2, on = col1)
 
-	merged.to_csv(outputFile, index = False)
+	if oCols is None:
+		merged.to_csv(outputFile, index=False)
+	else:
+		merged[oCols].to_csv(outputFile, index=False)
 	return
 
 
