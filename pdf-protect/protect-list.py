@@ -1,32 +1,47 @@
 #!/usr/bin/env python3
 
+import argparse
 import csv
 import subprocess
-import sys
 
 def import_csv(datafile):
-	data = []
+    data = []
 
-	try:
-		with open(datafile, newline='') as csvfile:
-			reader = csv.DictReader(csvfile)
-			for line in reader:
-				data.append(line)
+    try:
+        with open(datafile, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for line in reader:
+                data.append(line)
 
-	except FileNotFoundError:
-		return None
+    except FileNotFoundError:
+        return None
 
-	return data
+    return data
 
 
 
 if __name__ == '__main__':
-	csvFile = str(sys.argv[-1])
-	data = import_csv(csvFile)
+    arg_desc = 'Password protect a list of pdfs.'
+    parser = argparse.ArgumentParser(description=arg_desc)
 
-	for obj in data:
-		f = obj['file']
-		pwd = obj['password']
+    # Short Arguments
+    parser.add_argument('-a', '--append_string', type=str,
+                        default=' (Protected)', metavar='APPEND')
 
-		argString = '-p' + pwd
-		subprocess.call(['pdf-protect.sh', argString, f])
+    # Positional Arguments
+    parser.add_argument('csv_file', metavar='CSV', type=str)
+
+    args = parser.parse_args()
+
+    data = import_csv(args.csv_file)
+
+    for obj in data:
+        pdf = obj['file']
+        pwd = obj['password']
+
+        shell_cmd = ['pdf-protect.sh']
+        shell_cmd.extend(('-p', pwd))
+        shell_cmd.extend(('-a', args.append_string))
+        shell_cmd.append(pdf)
+
+        subprocess.call(shell_cmd)
