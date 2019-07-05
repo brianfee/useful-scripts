@@ -50,7 +50,7 @@ for line in sys.stdin:
 	line = line.strip('\n')
 	r = line.split(None, 10)
 	fn = r.pop()
-	fn = (','.join(r) + ',\"' + fn.replace('\"', '\"\"') + '\"')
+	fn = (','.join(r) + ',\"' + fn.replace('\"', '\"\"').replace('\\ ', ' ') + '\"')
 	fn = fn.split(',').pop()
 	csv.append(fn)
 
