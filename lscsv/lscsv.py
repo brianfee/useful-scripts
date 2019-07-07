@@ -5,7 +5,14 @@ def create_filelist(directory):
     """ Generates a list of files within a given directory. """
     import os
 
-    _, _, filelist = next(os.walk(directory))
+    depth = 1
+    filelist = []
+    for root, _, files in os.walk(directory):
+        for item in files:
+            filelist.append(os.path.join(root, item))
+        depth -= 1
+        if depth <= 0:
+            break
     return filelist
 
 
