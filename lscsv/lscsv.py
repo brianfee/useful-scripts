@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
+""" Creates a CSV containing a list of files in the specified directory. """
 
-def list_files(directory):
+def create_filelist(directory):
+    """ Generates a list of files within a given directory. """
     import os
 
     _, _, filelist = next(os.walk(directory))
-
-    for file in filelist:
-        print(file)
+    return filelist
 
 
 
 def parse_arguments():
-    """ Parses Command Line arguments """
+    """ Parses Command Line arguments. """
     import argparse
 
-    parser = argparse.ArgumentParser(description="""Creates a csv containing
-    filenames in the specified directory.""")
+    parser = argparse.ArgumentParser(description="""Creates a CSV containing
+                a list of files in the specified directory.""")
 
     # Positional Arguments
     parser.add_argument('directory', metavar='DIR', type=str)
@@ -24,8 +24,18 @@ def parse_arguments():
 
 
 
+def create_csv_from_list(data, output_file):
+    """ Takes a list of data and exports it to a given output file. """
+    import pandas as pd
+    df = pd.DataFrame(data, columns=['file'])
+    df.to_csv(output_file, index=False)
+
+
+
 def main(args):
-    list_files(args.directory)
+    """ Takes a directory and generates a CSV containing a list of files. """
+    filelist = create_filelist(args.directory)
+    create_csv_from_list(filelist, 'filelist.csv')
 
 
 
