@@ -55,7 +55,7 @@ def text_in_string_ratio(text, string):
 
 def load_csv(fileName):
 	try:
-		data = pd.read_csv(fileName)
+		data = pd.read_csv(fileName, dtype=str)
 	except FileNotFoundError:
 		print('File:', fileName, 'not found...')
 		return None
