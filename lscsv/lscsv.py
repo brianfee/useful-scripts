@@ -21,11 +21,12 @@ def parse_arguments():
     """ Parses Command Line arguments. """
     import argparse
 
-    parser = argparse.ArgumentParser(description="""Creates a CSV containing
-                a list of files in the specified directory.""")
+    desc = """Export DIR (the current directory by default) to a CSV."""
+    parser = argparse.ArgumentParser(description=desc)
 
     # Positional Arguments
-    parser.add_argument('directory', metavar='DIR', type=str)
+    parser.add_argument('directory', metavar='DIR', type=str,
+                        default='./', nargs='?')
 
     return parser.parse_args()
 
