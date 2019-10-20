@@ -2,13 +2,13 @@
 # pylint: disable=invalid-name
 """ This script uses the pdftk program to protect PDFs. """
 
-import csv
 import subprocess
 
 def import_csv(datafile):
     """ Loads a csv into a dictionary. """
-    data = []
 
+    import csv
+    data = []
     try:
         with open(datafile, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -26,7 +26,6 @@ def parse_arguments():
     """ Parse command line arguments. """
 
     import argparse
-
     desc = 'Password protect a list of pdfs.'
     parser = argparse.ArgumentParser(description=desc)
 
@@ -69,12 +68,17 @@ def main(args):
 
         for line in data:
             pdf = line['file']
+            output = pdf + args.append_string
             pwd = line['password']
+            protect_file(pdf, output, pwd)
 
-            protect_file(pdf, pdf + args.append_string, pwd)
+            if args.verbose:
+                print(pdf + ' -> ' + output)
 
     else:
         protect_file(args.file, args.file + args.append_string, args.password)
+        if args.verbose:
+            print(args.file + ' -> ' + args.file + args.append_string)
 
 
 
