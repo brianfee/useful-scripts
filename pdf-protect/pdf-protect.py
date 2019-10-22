@@ -67,8 +67,8 @@ def main(args):
         data = import_csv(args.file)
 
         for line in data:
-            pdf = line['file']
-            output = pdf + args.append_string
+            pdf = line['file'].replace('.pdf', '')
+            output = pdf + args.append_string + '.pdf'
             pwd = line['password']
             protect_file(pdf, output, pwd)
 
@@ -76,9 +76,10 @@ def main(args):
                 print(pdf + ' -> ' + output)
 
     else:
-        protect_file(args.file, args.file + args.append_string, args.password)
+        output = args.file.replace('.pdf', '') + args.append_string + '.pdf'
+        protect_file(args.file, output, args.password)
         if args.verbose:
-            print(args.file + ' -> ' + args.file + args.append_string)
+            print(args.file + ' -> ' + output)
 
 
 
