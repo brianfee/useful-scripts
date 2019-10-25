@@ -15,7 +15,8 @@ def import_csv(datafile):
             for line in reader:
                 data.append(line)
 
-    except FileNotFoundError:
+    except (FileNotFoundError, UnicodeDecodeError) as error:
+        print('Error: ' + str(error))
         return None
 
     return data
@@ -33,7 +34,6 @@ def parse_arguments():
     parser.add_argument('-a', '--append_string', type=str,
                         default=' (Protected)', metavar='APPEND')
 
-    parser.add_argument('-l', '--list', action='store_true')
     parser.add_argument('-p', '--password', type=str, metavar='PWD')
     parser.add_argument('-v', '--verbose', action='store_true')
 
@@ -63,13 +63,13 @@ def protect_file(filename, output, password=None):
 def main(args):
     """ The main pdf-protect function. """
 
-    if args.list:
-        data = import_csv(args.file)
+    data = import_csv(args.file)
 
+    if data is not None:
         for line in data:
             pdf = line['file']
             output = pdf.replace('.pdf', '') + args.append_string + '.pdf'
-            pwd = line['password']
+            pwd = line['password'] if args.password is None else args.password
             protect_file(pdf, output, pwd)
 
             if args.verbose:
